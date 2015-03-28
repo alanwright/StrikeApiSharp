@@ -83,33 +83,14 @@ namespace StrikeApiSharp
         }
 
         /// <summary>
-        /// Searches torrents using the given phrase.
-        /// </summary>
-        /// <param name="phrase">A search phrase</param>
-        /// <remarks>Returns a maximum of 100 results</remarks>
-        public static void SearchTorrents(string phrase)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Searches torrents using the given phrase, and subcategory.
-        /// </summary>
-        /// <param name="phrase">A search phrase</param>
-        /// <param name="category">A <see cref="Category"/></param>
-        public static void SearchTorrents(string phrase, Category category)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Searches torrents using the given phrase, category and subcategory.
         /// </summary>
         /// <param name="phrase">A search phrase</param>
         /// <param name="category">A <see cref="Category"/></param>
         /// <param name="subcategory">A <see cref="Subcategory"/></param>
-        public static void SearchTorrents(string phrase, Category category, Subcategory subcategory)
+        public static void SearchTorrents(string phrase, Category category = null, Subcategory subcategory = null)
         {
+            // TODO: Check category/subcategory for null
             throw new NotImplementedException();
         }
     }
