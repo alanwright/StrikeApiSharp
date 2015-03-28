@@ -16,80 +16,6 @@ namespace StrikeApiSharp
 {
     public sealed class Subcategory : IComparable<Subcategory>
     {
-        #region Static Constructor
-
-        static Subcategory()
-        {
-            Subcategories = new List<Subcategory>
-            {
-                new Subcategory("Highres Movies"),
-                new Subcategory("Hentai"),
-                new Subcategory("HD Video"),
-                new Subcategory("Handheld"),
-                new Subcategory("Games"),
-                new Subcategory("Fiction"),
-                new Subcategory("English-translated"),
-                new Subcategory("Ebooks"),
-                new Subcategory("Dubbed Movies"),
-                new Subcategory("Documentary"),
-                new Subcategory("Concerts"),
-                new Subcategory("Comics"),
-                new Subcategory("Books"),
-                new Subcategory("Bollywood"),
-                new Subcategory("Audio books"),
-                new Subcategory("Asian"),
-                new Subcategory("Anime Music Video"),
-                new Subcategory("Animation"),
-                new Subcategory("Android"),
-                new Subcategory("Academic"),
-                new Subcategory("AAC"),
-                new Subcategory("3D Movies"),
-                new Subcategory("XBOX360"),
-                new Subcategory("Windows"),
-                new Subcategory("Wii"),
-                new Subcategory("Wallpapers"),
-                new Subcategory("Video"),
-                new Subcategory("Unsorted"),
-                new Subcategory("UNIX"),
-                new Subcategory("UltraHD"),
-                new Subcategory("Tutorials"),
-                new Subcategory("Transcode"),
-                new Subcategory("Trailer"),
-                new Subcategory("Textbooks"),
-                new Subcategory("Subtitles"),
-                new Subcategory("Soundtrack"),
-                new Subcategory("Sound clips"),
-                new Subcategory("Radio Shows"),
-                new Subcategory("PSP"),
-                new Subcategory("PS3"),
-                new Subcategory("PS2"),
-                new Subcategory("Poetry"),
-                new Subcategory("Pictures"),
-                new Subcategory("PC"),
-                new Subcategory("Other XXX"),
-                new Subcategory("Other TV"),
-                new Subcategory("Other Music"),
-                new Subcategory("Other Movies"),
-                new Subcategory("Other Games"),
-                new Subcategory("Other Books"),
-                new Subcategory("Other Applications"),
-                new Subcategory("Other Anime"),
-                new Subcategory("Non-fiction"),
-                new Subcategory("Newspapers"),
-                new Subcategory("Music videos"),
-                new Subcategory("Mp3"),
-                new Subcategory("Movie clips"),
-                new Subcategory("Magazines"),
-                new Subcategory("Mac"),
-                new Subcategory("Lossless"),
-                new Subcategory("Linux"),
-                new Subcategory("Karaoke"),
-                new Subcategory("iOS"),
-            };
-        }
-
-        #endregion
-
         /// <summary>
         /// Creates a new Subcategory.
         /// </summary>
@@ -101,17 +27,9 @@ namespace StrikeApiSharp
 
         public string Name { get; private set; }
 
-        // Initialized in static constructor
-        private static List<Subcategory> Subcategories;
-
         public int CompareTo(Subcategory other)
         {
             return other != null ? string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase) : 0;
-        }
-
-        public List<Subcategory> GetSubCategories()
-        {
-            return Subcategories;
         }
 
         public override string ToString()
@@ -119,4 +37,75 @@ namespace StrikeApiSharp
             return Name;
         }
     }
+
+    #region Hard-Coded Subcategories
+
+    public static class Subcategories
+    {
+        public static Subcategory HighresMovies { get { return new Subcategory("Highres Movies"); } }
+        public static Subcategory Hentai { get { return new Subcategory("Hentai"); } }
+        public static Subcategory HdVideo { get { return new Subcategory("HD Video"); } }
+        public static Subcategory Handheld { get { return new Subcategory("Handheld"); } }
+        public static Subcategory Games { get { return new Subcategory("Games"); } }
+        public static Subcategory Fiction { get { return new Subcategory("Fiction"); } }
+        public static Subcategory EnglishTranslated { get { return new Subcategory("English-translated"); } }
+        public static Subcategory Ebooks { get { return new Subcategory("Ebooks"); } }
+        public static Subcategory DubbedMovies { get { return new Subcategory("Dubbed Movies"); } }
+        public static Subcategory Documentary { get { return new Subcategory("Documentary"); } }
+        public static Subcategory Concerts { get { return new Subcategory("Concerts"); } }
+        public static Subcategory Comics { get { return new Subcategory("Comics"); } }
+        public static Subcategory Books { get { return new Subcategory("Books"); } }
+        public static Subcategory Bollywood { get { return new Subcategory("Bollywood"); } }
+        public static Subcategory AudioBooks { get { return new Subcategory("Audio books"); } }
+        public static Subcategory Asian { get { return new Subcategory("Asian"); } }
+        public static Subcategory AnimeMusicVideo { get { return new Subcategory("Anime Music Video"); } }
+        public static Subcategory Animation { get { return new Subcategory("Animation"); } }
+        public static Subcategory Android { get { return new Subcategory("Android"); } }
+        public static Subcategory Academic { get { return new Subcategory("Academic"); } }
+        public static Subcategory AAC { get { return new Subcategory("AAC"); } }
+        public static Subcategory Movies3d { get { return new Subcategory("3D Movies"); } }
+        public static Subcategory XBOX360 { get { return new Subcategory("XBOX360"); } }
+        public static Subcategory Windows { get { return new Subcategory("Windows"); } }
+        public static Subcategory Wii { get { return new Subcategory("Wii"); } }
+        public static Subcategory Wallpapers { get { return new Subcategory("Wallpapers"); } }
+        public static Subcategory Video { get { return new Subcategory("Video"); } }
+        public static Subcategory Unsorted { get { return new Subcategory("Unsorted"); } }
+        public static Subcategory UNIX { get { return new Subcategory("UNIX"); } }
+        public static Subcategory UltraHD { get { return new Subcategory("UltraHD"); } }
+        public static Subcategory Tutorials { get { return new Subcategory("Tutorials"); } }
+        public static Subcategory Transcode { get { return new Subcategory("Transcode"); } }
+        public static Subcategory Trailer { get { return new Subcategory("Trailer"); } }
+        public static Subcategory Textbooks { get { return new Subcategory("Textbooks"); } }
+        public static Subcategory Subtitles { get { return new Subcategory("Subtitles"); } }
+        public static Subcategory Soundtrack { get { return new Subcategory("Soundtrack"); } }
+        public static Subcategory SoundClips { get { return new Subcategory("Sound clips"); } }
+        public static Subcategory RadioShows { get { return new Subcategory("Radio Shows"); } }
+        public static Subcategory Psp { get { return new Subcategory("PSP"); } }
+        public static Subcategory Ps3 { get { return new Subcategory("PS3"); } }
+        public static Subcategory Ps2 { get { return new Subcategory("PS2"); } }
+        public static Subcategory Poetry { get { return new Subcategory("Poetry"); } }
+        public static Subcategory Pictures { get { return new Subcategory("Pictures"); } }
+        public static Subcategory Pc { get { return new Subcategory("PC"); } }
+        public static Subcategory OtherXxx { get { return new Subcategory("Other XXX"); } }
+        public static Subcategory OtherTv { get { return new Subcategory("Other TV"); } }
+        public static Subcategory OtherMusic { get { return new Subcategory("Other Music"); } }
+        public static Subcategory OtherMovies { get { return new Subcategory("Other Movies"); } }
+        public static Subcategory OtherGames { get { return new Subcategory("Other Games"); } }
+        public static Subcategory OtherBooks { get { return new Subcategory("Other Books"); } }
+        public static Subcategory OtherApplications { get { return new Subcategory("Other Applications"); } }
+        public static Subcategory OtherAnime { get { return new Subcategory("Other Anime"); } }
+        public static Subcategory NonFiction { get { return new Subcategory("Non-fiction"); } }
+        public static Subcategory Newspapers { get { return new Subcategory("Newspapers"); } }
+        public static Subcategory MusicVideos { get { return new Subcategory("Music videos"); } }
+        public static Subcategory Mp3 { get { return new Subcategory("Mp3"); } }
+        public static Subcategory MovieClips { get { return new Subcategory("Movie clips"); } }
+        public static Subcategory Magazines { get { return new Subcategory("Magazines"); } }
+        public static Subcategory Mac { get { return new Subcategory("Mac"); } }
+        public static Subcategory Lossless { get { return new Subcategory("Lossless"); } }
+        public static Subcategory Linux { get { return new Subcategory("Linux"); } }
+        public static Subcategory Karaoke { get { return new Subcategory("Karaoke"); } }
+        public static Subcategory iOS { get { return new Subcategory("iOS"); } }
+    }
+
+    #endregion
 }
