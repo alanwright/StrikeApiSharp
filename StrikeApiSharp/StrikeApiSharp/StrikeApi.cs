@@ -1,17 +1,17 @@
 ﻿// ****************************************
 // Assembly : NetflixRouletteSharp
-// File     : StrikeApiSharp.cs
+// File     : StrikeApi.cs
 // Author   : Alan Wright
 // ****************************************
 // Created  : 03/28/2015
 // ****************************************
 
 using RestSharp;
+using StrikeApiSharp.Contracts.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace StrikeApiSharp
 {
@@ -41,9 +41,12 @@ namespace StrikeApiSharp
         /// Gets torrent info for the given torrent hash.
         /// </summary>
         /// <param name="hash">A string hash representing the torrent</param>
-        public void GetTorrent(string hash)
+        public TorrentInfoResponse GetTorrent(string hash)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(hash))
+                throw new ArgumentNullException("hash");
+
+            return GetTorrents(new List<string>{ hash }).FirstOrDefault();
         }
 
         /// <summary>
@@ -51,11 +54,19 @@ namespace StrikeApiSharp
         /// </summary>
         /// <param name="hashes">A list of string hash representing the torrents</param>
         /// <remarks>Limited to 50 per query</remarks>
-        public void GetTorrents(List<string> hashes)
+        public List<TorrentInfoResponse> GetTorrents(List<string> hashes)
         {
             var trimmedHashes = hashes.Take(MaxListLength);
 
-            throw new NotImplementedException();
+            var request = new RestRequest("torrents/info/", Method.GET);
+            request.AddParameter("hashes", string.Join(",", trimmedHashes));
+
+            var response = Execute<TorrentInfoResponses>(request);
+
+            if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
+                return new List<TorrentInfoResponse>();
+
+            return response.Data.Torrents;
         }
 
         /// <summary>

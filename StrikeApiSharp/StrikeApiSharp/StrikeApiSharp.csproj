@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="Contracts\Responses\TorrentInfoResponse.cs" />
+    <Compile Include="Contracts\Responses\TorrentInfoResponses.cs" />
+    <Compile Include="Contracts\TorrentFileInfo.cs" />
     <Compile Include="StrikeApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StrikeApiException.cs" />
@@ -55,6 +58,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
