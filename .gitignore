@@ -3,6 +3,9 @@
 *.cache
 *obj*
 
+# VS bin
+*bin*
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
