@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="Contracts\Responses\TorrentCountResponse.cs" />
     <Compile Include="Contracts\Responses\TorrentInfoResponse.cs" />
     <Compile Include="Contracts\Responses\TorrentInfoResponses.cs" />
     <Compile Include="Contracts\TorrentFileInfo.cs" />

@@ -95,5 +95,15 @@ namespace StrikeApiTests
             Assert.AreEqual(torrent1.TorrentTitle, "Slackware 14.1 x86_64 DVD ISO");
             Assert.AreEqual(torrent2.TorrentTitle, "Arch Linux 2015.01.01 (x86/x64)");
         }
+
+        [TestMethod]
+        public void GetTorrentCountTest()
+        {
+            var strikeApi = new StrikeApi();
+            var torrentCount = strikeApi.GetTorrentCount();
+
+            Assert.IsNotNull(torrentCount);
+            Assert.IsTrue(torrentCount > 0);
+        }
     }
 }
