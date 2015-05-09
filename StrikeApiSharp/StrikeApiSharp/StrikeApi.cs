@@ -1,5 +1,5 @@
 ﻿// ****************************************
-// Assembly : NetflixRouletteSharp
+// Assembly : StrikeApiSharp
 // File     : StrikeApi.cs
 // Author   : Alan Wright
 // ****************************************
