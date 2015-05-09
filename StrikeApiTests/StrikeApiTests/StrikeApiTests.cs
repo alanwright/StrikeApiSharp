@@ -105,5 +105,79 @@ namespace StrikeApiTests
             Assert.IsNotNull(torrentCount);
             Assert.IsTrue(torrentCount > 0);
         }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_NullPhraseTest()
+        {
+            var strikeApi = new StrikeApi();
+            try
+            {
+                var torrentResponses = strikeApi.SearchTorrents(null);
+            }
+            catch(Exception e)
+            {
+                Assert.IsTrue(e is ArgumentNullException);
+            }
+        }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseCategoryTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var searchCategory = Categories.Books;
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase, searchCategory);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+
+            // Ensure all categories are matching
+            var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.TorrentCategory == searchCategory.Name);
+            Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseSubcategoryTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var searchSubcategory = Subcategories.Comics;
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase, subcategory: searchSubcategory);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+
+            // Ensure all subcategories are matching
+            var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.TorrentSubCategory == searchSubcategory.Name);
+            Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseCategorySubcategoryTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var searchCategory = Categories.Books;
+            var searchSubcategory = Subcategories.Comics;
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase, searchCategory, searchSubcategory);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+
+            // Ensure all categories and subcategories are matching
+            var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.TorrentCategory == searchCategory.Name && t.TorrentSubCategory == searchSubcategory.Name);
+            Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace StrikeApiSharp
             var response = _client.Execute<T>(request);
 
             if (response.ErrorException != null)
-                throw response.ErrorException;
+                throw response.ErrorException; // TODO: are you sure you want to do this?
 
             return response;
         }
@@ -62,9 +62,8 @@ namespace StrikeApiSharp
             request.AddParameter("hashes", string.Join(",", trimmedHashes));
 
             var response = Execute<TorrentInfoResponses>(request);
-
             if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
-                return new List<TorrentInfoResponse>();
+                return new List<TorrentInfoResponse>(); // TODO: throw an exception?
 
             return response.Data.Torrents;
         }
@@ -107,9 +106,8 @@ namespace StrikeApiSharp
         {
             var request = new RestRequest("torrents/count/", Method.GET);
             var response = Execute<TorrentCountResponses>(request);
-
             if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
-                return 0;
+                return 0; // TODO: throw an exception?
 
             return response.Data.Count;
         }
@@ -120,10 +118,29 @@ namespace StrikeApiSharp
         /// <param name="phrase">A search phrase</param>
         /// <param name="category">A <see cref="Category"/></param>
         /// <param name="subcategory">A <see cref="Subcategory"/></param>
-        public void SearchTorrents(string phrase, Category category = null, Subcategory subcategory = null)
+        public List<TorrentInfoResponse> SearchTorrents(
+            string phrase,
+            Category category = null,
+            Subcategory subcategory = null)
         {
-            // TODO: Check category/subcategory for null
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(phrase))
+                throw new ArgumentNullException("phrase");
+
+            var request = new RestRequest("torrents/search/", Method.GET);
+            request.AddParameter("phrase", phrase);
+
+            // TODO: Should I be responsible for checking the category/subcategory?
+            if (category != null)
+                request.AddParameter("category", category.Name);
+
+            if (subcategory != null)
+                request.AddParameter("subcategory", subcategory.Name);
+
+            var response = Execute<TorrentInfoResponses>(request);
+            if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
+                return new List<TorrentInfoResponse>(); // TODO: throw an exception?
+
+            return response.Data.Torrents;
         }
     }
 }
