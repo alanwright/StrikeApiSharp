@@ -1,6 +1,6 @@
 ﻿// ****************************************
 // Assembly : StrikeApiSharp
-// File     : TorrentInfoResponse.cs
+// File     : TorrentInfo.cs
 // Author   : Alan Wright
 // ****************************************
 // Created  : 03/28/2015
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace StrikeApiSharp.Contracts.Responses
 {
-    public class TorrentInfoResponse
+    public class TorrentInfo
     {
         [JsonProperty("torrent_hash")]
         public string TorrentHash { get; private set; }

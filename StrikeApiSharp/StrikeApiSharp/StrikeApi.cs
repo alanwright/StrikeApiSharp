@@ -41,8 +41,8 @@ namespace StrikeApiSharp
         /// Gets torrent info for the given torrent hash.
         /// </summary>
         /// <param name="hash">A string hash representing the torrent.</param>
-        /// <returns>A <see cref="TorrentInfoResponse"/>.</returns>
-        public TorrentInfoResponse GetTorrent(string hash)
+        /// <returns>A <see cref="TorrentInfo"/>.</returns>
+        public TorrentInfo GetTorrent(string hash)
         {
             if (string.IsNullOrEmpty(hash))
                 throw new ArgumentNullException("hash");
@@ -55,8 +55,8 @@ namespace StrikeApiSharp
         /// </summary>
         /// <param name="hashes">A list of string hash representing the torrents.</param>
         /// <remarks>Limited to 50 per query.</remarks>
-        /// <returns>A list of <see cref="TorrentInfoResponse"/>.</returns>
-        public List<TorrentInfoResponse> GetTorrents(List<string> hashes)
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        public List<TorrentInfo> GetTorrents(List<string> hashes)
         {
             var trimmedHashes = hashes.Take(MaxListLength);
 
@@ -65,7 +65,7 @@ namespace StrikeApiSharp
 
             var response = Execute<TorrentInfoResponses>(request);
             if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
-                return new List<TorrentInfoResponse>(); // TODO: throw an exception?
+                return new List<TorrentInfo>(); // TODO: throw an exception?
 
             return response.Data.Torrents;
         }
@@ -142,8 +142,8 @@ namespace StrikeApiSharp
         /// <param name="phrase">A search phrase.</param>
         /// <param name="category">A <see cref="Category"/>.</param>
         /// <param name="subcategory">A <see cref="Subcategory"/>.</param>
-        /// <returns>A list of <see cref="TorrentInfoResponse"/>.</returns>
-        public List<TorrentInfoResponse> SearchTorrents(
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        public List<TorrentInfo> SearchTorrents(
             string phrase,
             Category category = null,
             Subcategory subcategory = null)
@@ -163,7 +163,7 @@ namespace StrikeApiSharp
 
             var response = Execute<TorrentInfoResponses>(request);
             if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
-                return new List<TorrentInfoResponse>(); // TODO: throw an exception?
+                return new List<TorrentInfo>(); // TODO: throw an exception?
 
             return response.Data.Torrents;
         }

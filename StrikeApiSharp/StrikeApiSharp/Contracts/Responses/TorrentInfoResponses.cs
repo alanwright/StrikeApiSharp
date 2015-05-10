@@ -12,6 +12,6 @@ namespace StrikeApiSharp.Contracts.Responses
 {
     public class TorrentInfoResponses
     {
-        public List<TorrentInfoResponse> Torrents { get; private set; }
+        public List<TorrentInfo> Torrents { get; private set; }
     }
 }
