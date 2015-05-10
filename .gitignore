@@ -3,6 +3,9 @@
 *.cache
 *obj*
 
+# nuget
+nuget.exe
+
 # VS bin
 *bin*
 *.suo
