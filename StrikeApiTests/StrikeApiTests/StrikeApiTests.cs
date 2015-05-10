@@ -120,6 +120,7 @@ namespace StrikeApiTests
         [TestMethod]
         public void SearchTorrents_NullPhraseTest()
         {
+            bool success = false;
             var strikeApi = new StrikeApi();
             try
             {
@@ -127,8 +128,10 @@ namespace StrikeApiTests
             }
             catch(Exception e)
             {
-                Assert.IsTrue(e is ArgumentNullException);
+                success = e is ArgumentNullException;
             }
+
+            Assert.IsTrue(success);
         }
 
         [TestMethod]
