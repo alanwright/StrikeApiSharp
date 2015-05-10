@@ -17,7 +17,7 @@ namespace StrikeApiTests
     public class StrikeApiTests
     {
         [TestMethod]
-        public void GetTorrentTest()
+        public void GetTorrent_Test()
         {
             var strikeApi = new StrikeApi();
             var hash = "B425907E5755031BDA4A8D1B6DCCACA97DA14C04";
@@ -38,7 +38,7 @@ namespace StrikeApiTests
         }
 
         [TestMethod]
-        public void GetTorrentsTest()
+        public void GetTorrents_Test()
         {
             var strikeApi = new StrikeApi();
             List<string> hashes = new List<string>
@@ -94,6 +94,97 @@ namespace StrikeApiTests
 
             Assert.AreEqual(torrent1.TorrentTitle, "Slackware 14.1 x86_64 DVD ISO");
             Assert.AreEqual(torrent2.TorrentTitle, "Arch Linux 2015.01.01 (x86/x64)");
+        }
+
+        [TestMethod]
+        public void GetTorrentCount_Test()
+        {
+            var strikeApi = new StrikeApi();
+            var torrentCount = strikeApi.GetTorrentCount();
+
+            Assert.IsNotNull(torrentCount);
+            Assert.IsTrue(torrentCount > 0);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_NullPhraseTest()
+        {
+            bool success = false;
+            var strikeApi = new StrikeApi();
+            try
+            {
+                var torrentResponses = strikeApi.SearchTorrents(null);
+            }
+            catch(Exception e)
+            {
+                success = e is ArgumentNullException;
+            }
+
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseCategoryTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var searchCategory = Categories.Books;
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase, searchCategory);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+
+            // Ensure all categories are matching
+            var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.TorrentCategory == searchCategory.Name);
+            Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
+        }
+
+        [TestMethod]
+        public void SearchTorrents_PhraseCategorySubcategoryTest()
+        {
+            var strikeApi = new StrikeApi();
+            var searchPhrase = "Batman";
+            var searchCategory = Categories.Books;
+            var searchSubcategory = Subcategories.Comics;
+            var torrentResponses = strikeApi.SearchTorrents(searchPhrase, searchCategory, searchSubcategory);
+
+            Assert.IsNotNull(torrentResponses);
+            Assert.IsTrue(torrentResponses.Count > 0);
+
+            // Ensure all categories and subcategories are matching
+            var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.TorrentCategory == searchCategory.Name && t.SubCategory == searchSubcategory.Name);
+            Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
+        }
+
+        [TestMethod]
+        public void GetTorrentDownloadUrl_Test()
+        {
+            var strikeApi = new StrikeApi();
+            var hash = "0EB6605E041F1846B84BAA63346012A82706A95D";
+            var torrentUrl = strikeApi.GetTorrentDownloadUrl(hash);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(torrentUrl));
+        }
+
+        [TestMethod]
+        public void GetTorrentDescription_Test()
+        {
+            var strikeApi = new StrikeApi();
+            var hash = "0EB6605E041F1846B84BAA63346012A82706A95D";
+            var torrentUrl = strikeApi.GetTorrentDescription(hash);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(torrentUrl));
         }
     }
 }

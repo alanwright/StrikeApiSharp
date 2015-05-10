@@ -5,6 +5,7 @@
 
 # VS bin
 *bin*
+*.suo
 
 # Windows image file caches
 Thumbs.db

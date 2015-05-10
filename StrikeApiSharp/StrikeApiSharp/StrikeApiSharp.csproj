@@ -47,11 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
-    <Compile Include="Contracts\Responses\TorrentInfoResponse.cs" />
+    <Compile Include="Contracts\Responses\TorrentCountResponse.cs" />
+    <Compile Include="Contracts\Responses\TorrentDescriptionResponse.cs" />
+    <Compile Include="Contracts\Responses\TorrentDownloadUrlResponse.cs" />
     <Compile Include="Contracts\Responses\TorrentInfoResponses.cs" />
+    <Compile Include="Contracts\TorrentInfo.cs" />
     <Compile Include="Contracts\TorrentFileInfo.cs" />
-    <Compile Include="StrikeApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StrikeApi.cs" />
     <Compile Include="StrikeApiException.cs" />
     <Compile Include="Subcategory.cs" />
   </ItemGroup>

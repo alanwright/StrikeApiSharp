@@ -1,5 +1,5 @@
 ﻿// ****************************************
-// Assembly : NetflixRouletteSharp
+// Assembly : StrikeApiSharp
 // File     : StrikeApi.cs
 // Author   : Alan Wright
 // ****************************************
@@ -32,7 +32,7 @@ namespace StrikeApiSharp
             var response = _client.Execute<T>(request);
 
             if (response.ErrorException != null)
-                throw response.ErrorException;
+                throw response.ErrorException; // TODO: are you sure you want to do this?
 
             return response;
         }
@@ -40,8 +40,9 @@ namespace StrikeApiSharp
         /// <summary>
         /// Gets torrent info for the given torrent hash.
         /// </summary>
-        /// <param name="hash">A string hash representing the torrent</param>
-        public TorrentInfoResponse GetTorrent(string hash)
+        /// <param name="hash">A string hash representing the torrent.</param>
+        /// <returns>A <see cref="TorrentInfo"/>.</returns>
+        public TorrentInfo GetTorrent(string hash)
         {
             if (string.IsNullOrEmpty(hash))
                 throw new ArgumentNullException("hash");
@@ -52,9 +53,10 @@ namespace StrikeApiSharp
         /// <summary>
         /// Gets torrent info for a given list of torrent hashes.
         /// </summary>
-        /// <param name="hashes">A list of string hash representing the torrents</param>
-        /// <remarks>Limited to 50 per query</remarks>
-        public List<TorrentInfoResponse> GetTorrents(List<string> hashes)
+        /// <param name="hashes">A list of string hash representing the torrents.</param>
+        /// <remarks>Limited to 50 per query.</remarks>
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        public List<TorrentInfo> GetTorrents(List<string> hashes)
         {
             var trimmedHashes = hashes.Take(MaxListLength);
 
@@ -62,9 +64,8 @@ namespace StrikeApiSharp
             request.AddParameter("hashes", string.Join(",", trimmedHashes));
 
             var response = Execute<TorrentInfoResponses>(request);
-
             if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
-                return new List<TorrentInfoResponse>();
+                return new List<TorrentInfo>(); // TODO: throw an exception?
 
             return response.Data.Torrents;
         }
@@ -72,17 +73,28 @@ namespace StrikeApiSharp
         /// <summary>
         /// Gets the description for the given torrent hash.
         /// </summary>
-        /// <param name="hash">A string hash representing the torrent</param>
-        public void GetTorrentDescription(string hash)
+        /// <param name="hash">A string hash representing the torrent.</param>
+        /// <returns>The description for provided torrent hash.</returns>
+        public string GetTorrentDescription(string hash)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(hash))
+                throw new ArgumentNullException(hash);
+
+            var request = new RestRequest("torrents/descriptions/", Method.GET);
+            request.AddParameter("hash", hash);
+
+            var response = Execute<TorrentDescriptionResponse>(request);
+            if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
+                return null; // TODO: throw an exception?
+
+            return response.Data.Description;
         }
 
         /// <summary>
         /// Gets the descriptions for the list of given torrent hashes.
         /// </summary>
-        /// <param name="hashes">A list of string hash representing the torrents</param>
-        /// <remarks>Limited to 50 per query</remarks>
+        /// <param name="hashes">A list of string hash representing the torrents.</param>
+        /// <remarks>Limited to 50 per query.</remarks>
         public void GetTorrentDescriptions(List<string> hashes)
         {
             var trimmedHashes = hashes.Take(MaxListLength);
@@ -93,30 +105,96 @@ namespace StrikeApiSharp
         /// <summary>
         /// Gets a download url for the given torrent hash.
         /// </summary>
-        /// <param name="hash">A string hash representing the torrent</param>
-        public void GetTorrentDownloadUrl(string hash)
+        /// <param name="hash">A string hash representing the torrent.</param>
+        /// <returns>The torrent download URL in the form of a string.</returns>
+        public string GetTorrentDownloadUrl(string hash)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(hash))
+                throw new ArgumentNullException(hash);
+
+            var request = new RestRequest("torrents/download/", Method.GET);
+            request.AddParameter("hash", hash);
+
+            var response = Execute<TorrentDownloadUrlResponse>(request);
+            if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
+                return null; // TODO: throw an exception?
+
+            return response.Data.Url;
         }
 
         /// <summary>
         /// Gets the total number of indexed torrents.
         /// </summary>
-        public void GetTorrentCount()
+        /// <returns>The total number of indexed torrents.</returns>
+        public int GetTorrentCount()
         {
-            throw new NotImplementedException();
+            var request = new RestRequest("torrents/count/", Method.GET);
+            var response = Execute<TorrentCountResponse>(request);
+            if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
+                return 0; // TODO: throw an exception?
+
+            return response.Data.Count;
         }
 
         /// <summary>
-        /// Searches torrents using the given phrase, category and subcategory.
+        /// Searches torrents using the given phrase.
         /// </summary>
-        /// <param name="phrase">A search phrase</param>
-        /// <param name="category">A <see cref="Category"/></param>
-        /// <param name="subcategory">A <see cref="Subcategory"/></param>
-        public void SearchTorrents(string phrase, Category category = null, Subcategory subcategory = null)
+        /// <param name="phrase">A search phrase.</param>
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        public List<TorrentInfo> SearchTorrents(string phrase)
         {
-            // TODO: Check category/subcategory for null
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(phrase))
+                throw new ArgumentNullException("phrase");
+
+            return SearchTorrentsInternal(phrase);
+        }
+
+        /// <summary>
+        /// Searches torrents using the given phrase, category and/or subcategory.
+        /// </summary>
+        /// <param name="phrase">A search phrase.</param>
+        /// <param name="category">A <see cref="Category"/>.</param>
+        /// <param name="subcategory">A <see cref="Subcategory"/>.</param>
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        public List<TorrentInfo> SearchTorrents(
+            string phrase,
+            Category category,
+            Subcategory subcategory = null)
+        {
+            if (string.IsNullOrEmpty(phrase))
+                throw new ArgumentNullException("phrase");
+            else if (category == null)
+                throw new ArgumentNullException("category");
+
+            return SearchTorrentsInternal(phrase, category, subcategory);
+        }
+
+        /// <summary>
+        /// Performs the acutal searching for torrents using the given phrase, category and subcategory.
+        /// </summary>
+        /// <param name="phrase">A search phrase.</param>
+        /// <param name="category">A <see cref="Category"/>.</param>
+        /// <param name="subcategory">A <see cref="Subcategory"/>.</param>
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        private List<TorrentInfo> SearchTorrentsInternal(
+            string phrase,
+            Category category = null,
+            Subcategory subcategory = null)
+        {
+            var request = new RestRequest("torrents/search/", Method.GET);
+            request.AddParameter("phrase", phrase);
+
+            if (category != null)
+                request.AddParameter("category", category.Name);
+
+            if (subcategory != null)
+                request.AddParameter("subcategory", subcategory.Name);
+
+            var response = Execute<TorrentInfoResponses>(request);
+            if (response.StatusCode != HttpStatusCode.OK || response.Data == null)
+                return new List<TorrentInfo>(); // TODO: throw an exception?
+
+            return response.Data.Torrents;
         }
     }
 }
