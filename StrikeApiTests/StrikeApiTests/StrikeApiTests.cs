@@ -151,23 +151,6 @@ namespace StrikeApiTests
         }
 
         [TestMethod]
-        public void SearchTorrents_PhraseSubcategoryTest()
-        {
-            var strikeApi = new StrikeApi();
-            var searchPhrase = "Batman";
-            var searchSubcategory = Subcategories.Comics;
-            var torrentResponses = strikeApi.SearchTorrents(searchPhrase, subcategory: searchSubcategory);
-
-            Assert.IsNotNull(torrentResponses);
-            Assert.IsTrue(torrentResponses.Count > 0);
-
-            // TODO: Follow up with API author. Specifying a subcategory only has no effect.
-            // Ensure all subcategories are matching
-            // var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.SubCategory == searchSubcategory.Name);
-            // Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
-        }
-
-        [TestMethod]
         public void SearchTorrents_PhraseCategorySubcategoryTest()
         {
             var strikeApi = new StrikeApi();

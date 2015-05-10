@@ -137,7 +137,20 @@ namespace StrikeApiSharp
         }
 
         /// <summary>
-        /// Searches torrents using the given phrase, category and subcategory.
+        /// Searches torrents using the given phrase.
+        /// </summary>
+        /// <param name="phrase">A search phrase.</param>
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        public List<TorrentInfo> SearchTorrents(string phrase)
+        {
+            if (string.IsNullOrEmpty(phrase))
+                throw new ArgumentNullException("phrase");
+
+            return SearchTorrentsInternal(phrase);
+        }
+
+        /// <summary>
+        /// Searches torrents using the given phrase, category and/or subcategory.
         /// </summary>
         /// <param name="phrase">A search phrase.</param>
         /// <param name="category">A <see cref="Category"/>.</param>
@@ -145,16 +158,32 @@ namespace StrikeApiSharp
         /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
         public List<TorrentInfo> SearchTorrents(
             string phrase,
-            Category category = null,
+            Category category,
             Subcategory subcategory = null)
         {
             if (string.IsNullOrEmpty(phrase))
                 throw new ArgumentNullException("phrase");
+            else if (category == null)
+                throw new ArgumentNullException("category");
 
+            return SearchTorrentsInternal(phrase, category, subcategory);
+        }
+
+        /// <summary>
+        /// Performs the acutal searching for torrents using the given phrase, category and subcategory.
+        /// </summary>
+        /// <param name="phrase">A search phrase.</param>
+        /// <param name="category">A <see cref="Category"/>.</param>
+        /// <param name="subcategory">A <see cref="Subcategory"/>.</param>
+        /// <returns>A list of <see cref="TorrentInfo"/>.</returns>
+        private List<TorrentInfo> SearchTorrentsInternal(
+            string phrase,
+            Category category = null,
+            Subcategory subcategory = null)
+        {
             var request = new RestRequest("torrents/search/", Method.GET);
             request.AddParameter("phrase", phrase);
 
-            // TODO: Should I be responsible for checking the category/subcategory?
             if (category != null)
                 request.AddParameter("category", category.Name);
 
