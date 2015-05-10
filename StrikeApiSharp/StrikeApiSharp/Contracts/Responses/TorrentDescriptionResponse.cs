@@ -1,6 +1,6 @@
 ﻿// ****************************************
-// Assembly : StrikeApiSharp
-// File     : TorrentCountResponse.cs
+// Assembly : NetflixRouletteSharp
+// File     : TorrentDescriptionResponse.cs
 // Author   : Alan Wright
 // ****************************************
 // Created  : 05/09/2015
@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace StrikeApiSharp.Contracts.Responses
 {
-    public class TorrentCountResponse
+    public class TorrentDescriptionResponse
     {
         [JsonProperty("message")]
-        public long Count { get; private set; }
+        public string Description { get; private set; }
     }
 }

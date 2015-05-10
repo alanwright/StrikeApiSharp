@@ -17,7 +17,7 @@ namespace StrikeApiTests
     public class StrikeApiTests
     {
         [TestMethod]
-        public void GetTorrentTest()
+        public void GetTorrent_Test()
         {
             var strikeApi = new StrikeApi();
             var hash = "B425907E5755031BDA4A8D1B6DCCACA97DA14C04";
@@ -38,7 +38,7 @@ namespace StrikeApiTests
         }
 
         [TestMethod]
-        public void GetTorrentsTest()
+        public void GetTorrents_Test()
         {
             var strikeApi = new StrikeApi();
             List<string> hashes = new List<string>
@@ -97,7 +97,7 @@ namespace StrikeApiTests
         }
 
         [TestMethod]
-        public void GetTorrentCountTest()
+        public void GetTorrentCount_Test()
         {
             var strikeApi = new StrikeApi();
             var torrentCount = strikeApi.GetTorrentCount();
@@ -178,6 +178,26 @@ namespace StrikeApiTests
             // Ensure all categories and subcategories are matching
             var resultsWithMatchingCategory = torrentResponses.FindAll(t => t.TorrentCategory == searchCategory.Name && t.TorrentSubCategory == searchSubcategory.Name);
             Assert.IsTrue(resultsWithMatchingCategory.Count == torrentResponses.Count);
+        }
+
+        [TestMethod]
+        public void GetTorrentDownloadUrl_Test()
+        {
+            var strikeApi = new StrikeApi();
+            var hash = "0EB6605E041F1846B84BAA63346012A82706A95D";
+            var torrentUrl = strikeApi.GetTorrentDownloadUrl(hash);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(torrentUrl));
+        }
+
+        [TestMethod]
+        public void GetTorrentDescription_Test()
+        {
+            var strikeApi = new StrikeApi();
+            var hash = "0EB6605E041F1846B84BAA63346012A82706A95D";
+            var torrentUrl = strikeApi.GetTorrentDescription(hash);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(torrentUrl));
         }
     }
 }

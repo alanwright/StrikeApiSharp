@@ -1,5 +1,5 @@
 ﻿// ****************************************
-// Assembly : NetflixRouletteSharp
+// Assembly : StrikeApiSharp
 // File     : TorrentInfoResponses.cs
 // Author   : Alan Wright
 // ****************************************
