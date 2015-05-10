@@ -24,7 +24,7 @@ namespace StrikeApiSharp.Contracts.Responses
         public string TorrentCategory { get; private set; }
 
         [JsonProperty("sub_category")]
-        public string TorrentSubCategory { get; private set; }
+        public string SubCategory { get; private set; }
 
         [JsonProperty("seeds")]
         public int Seeds { get; private set; }

@@ -12,7 +12,9 @@ namespace StrikeApiSharp.Contracts.Responses
 {
     public class TorrentDownloadUrlResponse
     {
+        public string Url { get { return Message; } }
+
         [JsonProperty("message")]
-        public string Url { get; private set; }
+        public string Message { private get; set; }
     }
 }

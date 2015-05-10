@@ -126,7 +126,7 @@ namespace StrikeApiSharp
         /// Gets the total number of indexed torrents.
         /// </summary>
         /// <returns>The total number of indexed torrents.</returns>
-        public long GetTorrentCount()
+        public int GetTorrentCount()
         {
             var request = new RestRequest("torrents/count/", Method.GET);
             var response = Execute<TorrentCountResponse>(request);

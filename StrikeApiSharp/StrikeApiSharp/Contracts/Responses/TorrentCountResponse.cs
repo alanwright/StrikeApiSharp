@@ -12,7 +12,9 @@ namespace StrikeApiSharp.Contracts.Responses
 {
     public class TorrentCountResponse
     {
+        public int Count { get { return Message; } }
+
         [JsonProperty("message")]
-        public long Count { get; private set; }
+        public int Message { private get; set; }
     }
 }
