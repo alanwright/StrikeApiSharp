@@ -6,6 +6,7 @@
 # nuget
 nuget.exe
 *packages*
+*.nuspec
 
 # VS bin
 *bin*
