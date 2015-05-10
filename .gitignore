@@ -5,6 +5,7 @@
 
 # nuget
 nuget.exe
+*packages*
 
 # VS bin
 *bin*
