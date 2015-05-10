@@ -15,6 +15,6 @@ namespace StrikeApiSharp.Contracts.Responses
         public string Url { get { return Message; } }
 
         [JsonProperty("message")]
-        public string Message { private get; set; }
+        public string Message { get; private set; }
     }
 }
