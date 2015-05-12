@@ -89,19 +89,7 @@ namespace StrikeApiSharp
 
             return response.Data.Description;
         }
-
-        /// <summary>
-        /// Gets the descriptions for the list of given torrent hashes.
-        /// </summary>
-        /// <param name="hashes">A list of string hash representing the torrents.</param>
-        /// <remarks>Limited to 50 per query.</remarks>
-        public void GetTorrentDescriptions(List<string> hashes)
-        {
-            var trimmedHashes = hashes.Take(MaxListLength);
-
-            throw new NotImplementedException();
-        }
-
+		
         /// <summary>
         /// Gets a download url for the given torrent hash.
         /// </summary>
